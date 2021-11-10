@@ -132,14 +132,18 @@ Other components pin connection details
 ## Usage <a name = "usage"></a>
 
 1.  Upload the code to your ESP32.
-2.  Power on your ESP32, it will present you with an AP named `CPT-abc` (while `CPT` can be changed in the portal and `abc` is a unique id for each esp32) 5. Default captive portal password `123456789AP` which can be changed in captive portal. 6. Connect to the ESP32 access point and open the web-browser and navigate to the link `http://esp32.local/_ac`. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL. 7. The default access IP Address is `http://192.168.4.1/_ac` 8. You will be presented with a main dashboard as shown below(based on your device)
+2.  Power on your ESP32, it will present you with an AP named `CPT-abc` (while `CPT` can be changed in the portal and `abc` is a unique id for each esp32) 
+3.  Default captive portal password `123456789AP` which can be changed in captive portal. 
+4.  Connect to the ESP32 access point and open the web-browser and navigate to the link `http://esp32.local/_ac`. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL. 
+5.  The default access IP Address is `http://192.168.4.1/_ac` 
+6.  You will be presented with a main dashboard as shown below(based on your device)
 ![SCR1](artwork/scr1.png)
 
-9.  Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
-10. The data is published to the MQTT Topic `CPT/{hostname}` while the hostname is the one which you can define in Settings page of the captive portal.
-11. You can open settings page with following default credentials
-12. User: **AP Name (CPT)**
-13. Password: **admin**
+7.  Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
+8. The data is published to the MQTT Topic `CPT/{hostname}` while the hostname is the one which you can define in Settings page of the captive portal.
+9. You can open settings page with following default credentials
+   1.  User: **AP Name (CPT)**
+   2.  Password: **admin**
 
 ## List of Components <a name = "list"></a>
 
