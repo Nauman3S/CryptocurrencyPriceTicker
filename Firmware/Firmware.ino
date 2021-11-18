@@ -236,7 +236,7 @@ void loop()
 
     if (millis() - lastPub > updateInterval) //publish data to mqtt server
     {
-        mqttPublish("CPT/" + String(ss.getMacAddress()) + String("/ticker"), String(ticker)); //publish data to mqtt broker
+        mqttPublish("CPT-data/" + String(ss.getMacAddress()) + String("/ticker"), String(ticker)); //publish data to mqtt broker
         priceData = getCrypto();
         k++;
         if (k > 100)
