@@ -5,9 +5,25 @@ void reconnect();
 bool mqttConnect();
 void mqttPublish(String path, String msg);
 int deviceExisits = 0;
+String cryptoNamePrice = "";
+
+void setCrypto(String np)
+{
+    cryptoNamePrice = np;
+}
+String getCrypto()
+{
+    if(cryptoNamePrice.length()>0){
+        return cryptoNamePrice;
+    }
+    else{
+        return String("Please Wait!");
+    }
+    
+}
 void MQTTUnSubscribe()
 {
-    String topicN = String("smart-agri/deviceExistance");
+    String topicN = String("CPT/device/price");
 
     mqttClient.unsubscribe(topicN.c_str());
 }
@@ -18,7 +34,7 @@ void MQTTSubscriptions()
     // for(int i=0;i<10;i++){
     //   IMEIsList[i]==String("NA");
     // }
-    String topicN = String("smart-agri/deviceExistance");
+    String topicN = String("CPT/device/price");
 
     mqttClient.subscribe(topicN.c_str());
 }
@@ -34,18 +50,9 @@ void callback(char *topic, byte *payload, unsigned int length)
         pLoad = pLoad + String((char)payload[i]);
     }
     Serial.println();
-    if (String(topic) == String("smart-agri/deviceExistance"))
+    if (String(topic) == String("CPT/device/price"))
     {
-        if (pLoad.indexOf("null") >= 0)
-        {
-            //create new device
-            mqttPublish("smart-agri/createNew", ss.getMacAddress() + String(";0;0;0;0;0;0;0;0;0;0;0")); //create an empty device
-            deviceExisits = 1;
-        }
-        else
-        {
-            deviceExisits = 1;
-        }
+        setCrypto(pLoad);
     }
 
     // Switch on the LED if an 1 was received as first character
@@ -103,7 +110,7 @@ bool mqttConnect()
 
         mqttClient.setServer(mqtt_server, 1883);
         mqttClient.setCallback(callback);
-        Serial.println(String("Attempting MQTT broker:") + String("smart-agri Broker"));
+        Serial.println(String("Attempting MQTT broker:") + String("HiveMQ Broker"));
         internetStatus = "Connecting...";
 
         for (uint8_t i = 0; i < 8; i++)

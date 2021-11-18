@@ -46,17 +46,21 @@ String saveParams(AutoConnectAux &aux, PageArgument &args) //save the settings
     hostName = args.arg("hostname");
     hostName.trim();
 
+    ticker = args.arg("ticker");
+    ticker.trim();
+
     // The entered value is owned by AutoConnectAux of /mqtt_setting.
     // To retrieve the elements of /mqtt_setting, it is necessary to get
     // the AutoConnectAux object of /mqtt_setting.
     File param = FlashFS.open(PARAM_FILE, "w");
-    portal.aux("/mqtt_setting")->saveElement(param, {"mqttserver", "channelid", "userkey", "apikey", "hostname", "apPass", "settingsPass"});
+    portal.aux("/mqtt_setting")->saveElement(param, {"mqttserver", "channelid", "userkey", "apikey","ticker", "hostname", "apPass", "settingsPass"});
     param.close();
 
     // Echo back saved parameters to AutoConnectAux page.
     AutoConnectText &echo = aux["parameters"].as<AutoConnectText>();
     echo.value = "Server: " + serverName + "<br>";
     echo.value += "Channel ID: " + channelId + "<br>";
+    echo.value += "Ticker: " + ticker + "<br>";
     echo.value += "Username: " + userKey + "<br>";
     echo.value += "Password: " + apiKey + "<br>";
     echo.value += "ESP host name: " + hostName + "<br>";
@@ -100,6 +104,8 @@ void setup() //main setup functions
     Serial.begin(115200);
     delay(1000);
     setupLEDMatrix();
+    Serial.print("Device ID: ");
+    Serial.println(ss.getMacAddress());
 
     if (!MDNS.begin("esp32")) //starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
     {
@@ -130,6 +136,7 @@ void setup() //main setup functions
         AutoConnectInput &userkeyElm = mqtt_setting["userkey"].as<AutoConnectInput>();
         AutoConnectInput &apikeyElm = mqtt_setting["apikey"].as<AutoConnectInput>();
         AutoConnectInput &settingsPassElm = mqtt_setting["settingsPass"].as<AutoConnectInput>();
+        AutoConnectInput &tickerElm = mqtt_setting["ticker"].as<AutoConnectInput>();
         //vibSValueElm.value="VibS:11";
         serverName = String(serverNameElm.value);
         channelId = String(channelidElm.value);
@@ -138,6 +145,7 @@ void setup() //main setup functions
         hostName = String(hostnameElm.value);
         apPass = String(apPassElm.value);
         settingsPass = String(settingsPassElm.value);
+        ticker = String(tickerElm.value);
         if (hostnameElm.value.length())
         {
             //hostName=hostName+ String("-") + String(GET_CHIPID(), HEX);
@@ -228,8 +236,8 @@ void loop()
 
     if (millis() - lastPub > updateInterval) //publish data to mqtt server
     {
-        mqttPublish("CPT/" + String(hostName) + String("bme280/"), String(priceData)); //publish data to mqtt broker
-        priceData = String("XYCoin @ $") + String(k);
+        mqttPublish("CPT/" + String(ss.getMacAddress()) + String("/ticker"), String(ticker)); //publish data to mqtt broker
+        priceData = getCrypto();
         k++;
         if (k > 100)
         {

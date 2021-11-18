@@ -144,6 +144,7 @@ Other components pin connection details
 9. You can open settings page with following default credentials
    1.  User: **AP Name (CPT)**
    2.  Password: **admin**
+10. You can set a crypto currency in the setting page in 'Crypto Name' Section.
 
 ## List of Components <a name = "list"></a>
 

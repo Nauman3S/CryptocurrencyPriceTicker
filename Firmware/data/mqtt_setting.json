@@ -47,6 +47,17 @@
       "label": "Channel ID"
     },
     {
+      "name": "newline2",
+      "type": "ACElement",
+      "value": "<hr>"
+    },
+    {
+      "name": "ticker",
+      "type": "ACInput",
+      "value": "BTC",
+      "label": "Crypto Name"
+    },
+    {
       "name": "newline",
       "type": "ACElement",
       "value": "<hr>"
