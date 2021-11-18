@@ -16,7 +16,7 @@ tickerValue='BTC'
 def getCryptoData(ticker):
 
     url='https://api.nomics.com/v1/currencies/ticker?key=449415bb572251fc1bff2887f0302627b0ca4f6c&ids='+ticker
-
+    url=url.replace(' ',"")
     f = urllib.request.urlopen(url)
     res=f.read()
     res=res.decode('utf-8')
