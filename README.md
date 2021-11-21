@@ -144,7 +144,8 @@ Other components pin connection details
 9. You can open settings page with following default credentials
    1.  User: **AP Name (CPT)**
    2.  Password: **admin**
-10. You can set a crypto currency in the setting page in 'Crypto Name' Section.
+10. You can set a crypto coin in the setting page in 'Crypto Name' Section. Multiple currencies can be added separated by the comma like BTC,ADA,ETH
+11. You can also select the currency in the 'Currency' section. Put any currency name in three letter like USD or AUD etc.
 
 ## List of Components <a name = "list"></a>
 
