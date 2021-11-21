@@ -58,6 +58,12 @@
       "label": "Crypto Name"
     },
     {
+      "name": "currency",
+      "type": "ACInput",
+      "value": "USD",
+      "label": "Currency"
+    },
+    {
       "name": "newline",
       "type": "ACElement",
       "value": "<hr>"

@@ -49,11 +49,14 @@ String saveParams(AutoConnectAux &aux, PageArgument &args) //save the settings
     ticker = args.arg("ticker");
     ticker.trim();
 
+    currency = args.arg("currency");
+    currency.trim();
+
     // The entered value is owned by AutoConnectAux of /mqtt_setting.
     // To retrieve the elements of /mqtt_setting, it is necessary to get
     // the AutoConnectAux object of /mqtt_setting.
     File param = FlashFS.open(PARAM_FILE, "w");
-    portal.aux("/mqtt_setting")->saveElement(param, {"mqttserver", "channelid", "userkey", "apikey","ticker", "hostname", "apPass", "settingsPass"});
+    portal.aux("/mqtt_setting")->saveElement(param, {"mqttserver", "channelid", "userkey", "apikey","ticker", "currency","hostname", "apPass", "settingsPass"});
     param.close();
 
     // Echo back saved parameters to AutoConnectAux page.
@@ -66,7 +69,8 @@ String saveParams(AutoConnectAux &aux, PageArgument &args) //save the settings
     echo.value += "ESP host name: " + hostName + "<br>";
     echo.value += "AP Password: " + apPass + "<br>";
     echo.value += "Settings Page Password: " + settingsPass + "<br>";
-
+    mqttPublish("CPT/config/currency", currency);
+    mqttPublish("CPT-data/" + String(ss.getMacAddress()) + String("/ticker"), String(ticker)); //publish data to mqtt broker
     return String("");
 }
 bool loadAux(const String auxName) //load defaults from data/*.json
@@ -137,6 +141,7 @@ void setup() //main setup functions
         AutoConnectInput &apikeyElm = mqtt_setting["apikey"].as<AutoConnectInput>();
         AutoConnectInput &settingsPassElm = mqtt_setting["settingsPass"].as<AutoConnectInput>();
         AutoConnectInput &tickerElm = mqtt_setting["ticker"].as<AutoConnectInput>();
+        AutoConnectInput &currencyElm = mqtt_setting["currency"].as<AutoConnectInput>();
         //vibSValueElm.value="VibS:11";
         serverName = String(serverNameElm.value);
         channelId = String(channelidElm.value);
@@ -146,6 +151,7 @@ void setup() //main setup functions
         apPass = String(apPassElm.value);
         settingsPass = String(settingsPassElm.value);
         ticker = String(tickerElm.value);
+        currency = String(currencyElm.value);
         if (hostnameElm.value.length())
         {
             //hostName=hostName+ String("-") + String(GET_CHIPID(), HEX);
@@ -224,7 +230,7 @@ void setup() //main setup functions
     MDNS.addService("http", "tcp", 80);
     mqttConnect(); //start mqtt
 
-    mqttPublish("CPT/deviceExists", ss.getMacAddress());
+    mqttPublish("CPT/config/currency", currency);
 }
 String priceData = "00";
 int k = 0;
