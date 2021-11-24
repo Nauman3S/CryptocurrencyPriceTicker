@@ -71,6 +71,7 @@ String saveParams(AutoConnectAux &aux, PageArgument &args) //save the settings
     echo.value += "Settings Page Password: " + settingsPass + "<br>";
     mqttPublish("CPT/config/currency", currency);
     mqttPublish("CPT-data/" + String(ss.getMacAddress()) + String("/ticker"), String(ticker)); //publish data to mqtt broker
+    ESP.restart();
     return String("");
 }
 bool loadAux(const String auxName) //load defaults from data/*.json

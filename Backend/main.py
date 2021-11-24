@@ -74,10 +74,10 @@ def on_message(client, userdata, msg):
     topicV=str(msg.topic)
     msgV=str((msg.payload).decode('utf-8'))
 
-    if('CPT' in topicV):
+    if('CPT-data' in topicV):
     
         tickerValue=msgV
-        hastagValue=msgV
+        
     if('currency' in topicV):
         currency=msgV
         
@@ -106,7 +106,7 @@ while 1:
     # lastTweet=getTweet()
     try:
         if time.time() - oldtime >getDataFreq:
-            getDataFreq=random.randint(0,50)
+            getDataFreq=random.randint(3,50)
             oldtime=time.time()
             if(',' in tickerValue):
                 multiCoinPayload=getMultiCryptoData(tickerValue,currency)
